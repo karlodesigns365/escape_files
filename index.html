@@ -1476,6 +1476,11 @@
 
 <div id="timer-container">90:00</div>
 
+<!-- GUMB ZA OTVARANJE KARTE -->
+<button type="button" class="karta-nav-btn" onclick="otvoriMapuNapretka()" title="Pregledaj kartu lokacija">
+    🗺️ <span class="karta-btn-tekst">Karta</span>
+</button>
+
 <div class="quest-container">
     
     <!-- UVODNA PRIČA -->
@@ -5126,6 +5131,72 @@ function zatvoriSliku43() {
         modal.style.display = 'none'; // Zatvara modal i vraća na igru
     }
 }
+function dohvatiNazivKarte(brojTraga) {
+    // Ako indeksi u kodu kreću od 0, dodajemo +1 da pretvorimo u stvarne brojeve tragova (1-14)
+    // Ako kreću od 1, samo ostavi 'brojTraga'
+    const trag = brojTraga + 1; 
+
+    if (trag >= 1 && trag <= 5) {
+        return "Karta_A.jpg";
+    } else if (trag === 6) {
+        return "Karta_AB.jpg";
+    } else if (trag === 7) {
+        return "Karta_ABC.jpg";
+    } else if (trag >= 8 && trag <= 12) {
+        return "Karta_ABCD.jpg";
+    } else if (trag === 13) {
+        return "Karta_ABCDE.jpg";
+    } else if (trag >= 14) {
+        return "Karta_ABCDEF.jpg";
+    }
+    
+    return "Karta_A.jpg";
+}
+
+function otvoriMapuNapretka() {
+    // Pronalaženje točne varijable (pokušava nekoliko čestih naziva):
+    let aktivniTrag = 0;
+
+    if (typeof currentPuzzleIndex !== 'undefined') {
+        aktivniTrag = currentPuzzleIndex;
+    } else if (typeof currentPuzzle !== 'undefined') {
+        aktivniTrag = currentPuzzle;
+    } else if (typeof trenutniTrag !== 'undefined') {
+        aktivniTrag = trenutniTrag;
+    }
+
+    const nazivSlike = dohvatiNazivKarte(aktivniTrag);
+
+    // Ispis u konzolu za provjeru
+    console.log("Detektiran trag:", aktivniTrag, "-> Učitavam sliku:", nazivSlike);
+
+    const imgElement = document.getElementById('slika-karte-napretka');
+    if (imgElement) {
+        // Sprečavanje keširanja slike u pregledniku s timestampom
+        imgElement.src = nazivSlike + "?v=" + new Date().getTime();
+    }
+
+    document.getElementById('modal-karta-napretka').style.display = 'flex';
+}
+
+function otvoriMapuNapretka() {
+    // Pretpostavka je da u 'currentPuzzleIndex' ili 'currentPuzzle' imaš broj trenutnog traga.
+    // Ako ti se varijabla zove npr. 'currentPuzzleIndex' (gdje je 0 prvi trag, dodaj + 1)
+    let trenutniTragBroj = typeof currentPuzzleIndex !== 'undefined' ? currentPuzzleIndex : 1; 
+
+    const nazivSlike = dohvatiNazivKarte(trenutniTragBroj);
+    
+    const imgElement = document.getElementById('slika-karte-napretka');
+    if (imgElement) {
+        imgElement.src = nazivSlike;
+    }
+    
+    document.getElementById('modal-karta-napretka').style.display = 'flex';
+}
+
+function zatvoriMapuNapretka() {
+    document.getElementById('modal-karta-napretka').style.display = 'none';
+}
 </script>
 <div class="rjesenja-fiksni-gumb" onclick="otvoriProvjeruRjesenja()">💡</div>
 
@@ -5197,6 +5268,32 @@ function zatvoriSliku43() {
             
             <button class="rjesenja-gumb-zatvori" onclick="zatvoriRjesenjaModal()">ZATVORI KNJIGU</button>
         </div>
+
+    </div>
+</div>
+<!-- MODAL ZA KARTU NAPRETKA -->
+<div id="modal-karta-napretka" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 9999; justify-content: center; align-items: center; padding: 15px; box-sizing: border-box;">
+    
+    <div style="position: relative; background: #1a1a1a; border: 2px solid #d4af37; border-radius: 12px; padding: 20px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);">
+        
+        <!-- Naslov modala -->
+        <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 12px; font-family: sans-serif; font-size: 1.3rem;">
+            🗺️ Napredak rute
+        </h3>
+
+        <!-- Prikaz dynamic slike karte -->
+        <div style="width: 100%; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid #333;">
+            <img id="slika-karte-napretka" src="" alt="Karta napretka" style="width: 100%; height: auto; display: block; object-fit: contain; max-height: 60vh;">
+        </div>
+
+        <p style="color: #aaa; font-size: 0.85rem; margin-top: 10px; margin-bottom: 15px; font-style: italic;">
+            Pinovi prikazuju lokacije koje ste otkrili do sada.
+        </p>
+
+        <!-- Gumb za zatvaranje -->
+        <button type="button" onclick="zatvoriMapuNapretka()" style="background: #cc2929; color: #fff; border: none; padding: 10px 24px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem;">
+            ZATVORI
+        </button>
 
     </div>
 </div>
