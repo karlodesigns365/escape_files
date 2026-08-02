@@ -2363,17 +2363,20 @@ else if (currentPuzzle.type === "potepuh-puzzle") {
     contentDiv.innerHTML = `
         <p>Ispred tebe se nalazi skulptura Krležinog Petrice Kerempuha i njegovih galženjaka. Skrivena riječ koja savršeno opisuje Petricu nalazi se negdje oko tebe.</p>
         
-        <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin:20px 0;">
-            <div class="p8-potepuh-group" style="display:flex; gap:5px;">
-                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p1" style="text-transform:uppercase; text-align:center;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p2').focus();">
-                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p2" style="text-transform:uppercase; text-align:center;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p3').focus();">
-                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p3" style="text-transform:uppercase; text-align:center;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p4').focus();">
-                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p4" style="text-transform:uppercase; text-align:center;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p5').focus();">
-                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p5" style="text-transform:uppercase; text-align:center;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p6').focus();">
-                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p6" style="text-transform:uppercase; text-align:center;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p7').focus();">
-                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p7" style="text-transform:uppercase; text-align:center;" oninput="this.value = this.value.toUpperCase();">
+        <!-- Oznaka za slova prebačena na vrh -->
+        <p style="text-align:center; font-size:0.85rem; color:#aaa; font-weight:bold; margin-top:15px; margin-bottom:10px;">(SLOVA / 1)</p>
+        
+        <!-- Kontejner kućica prilagođen za mobitele -->
+        <div style="display:flex; justify-content:center; align-items:center; gap:4px; margin:10px 0 20px 0; width:100%; box-sizing:border-box;">
+            <div class="p8-potepuh-group" style="display:flex; gap:4px; max-width:100%; justify-content:center;">
+                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p1" style="text-transform:uppercase; text-align:center; width:calc(100% / 7 - 4px); max-width:42px; min-width:28px; padding:8px 0;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p2').focus();">
+                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p2" style="text-transform:uppercase; text-align:center; width:calc(100% / 7 - 4px); max-width:42px; min-width:28px; padding:8px 0;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p3').focus();">
+                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p3" style="text-transform:uppercase; text-align:center; width:calc(100% / 7 - 4px); max-width:42px; min-width:28px; padding:8px 0;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p4').focus();">
+                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p4" style="text-transform:uppercase; text-align:center; width:calc(100% / 7 - 4px); max-width:42px; min-width:28px; padding:8px 0;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p5').focus();">
+                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p5" style="text-transform:uppercase; text-align:center; width:calc(100% / 7 - 4px); max-width:42px; min-width:28px; padding:8px 0;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p6').focus();">
+                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p6" style="text-transform:uppercase; text-align:center; width:calc(100% / 7 - 4px); max-width:42px; min-width:28px; padding:8px 0;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 1) document.getElementById('p8-p7').focus();">
+                <input type="text" class="box-input large-digit auto-next" maxlength="1" id="p8-p7" style="text-transform:uppercase; text-align:center; width:calc(100% / 7 - 4px); max-width:42px; min-width:28px; padding:8px 0;" oninput="this.value = this.value.toUpperCase();">
             </div>
-            <span style="font-size:0.85rem; color:#888; font-weight:bold;">(SLOVA / 1)</span>
         </div>
         
         <button type="button" onclick="provjeriPotepuh()" style="width: 100%; margin-bottom: 10px;">POTVRDI</button>
@@ -2931,18 +2934,6 @@ else if (currentPuzzle.type === "kamenita-puzzle") {
 
         <!-- FAZA 8: HRVATSKE STROFE I SLIKA 43 -->
         <div id="faza8" style="display:none;">
-            <div style="text-align:justify; line-height:1.7; margin-bottom:20px; font-size:1.05rem;">
-			<p style="font-size: 0.95rem; color: #ffffff; line-height: 1.6; text-align: justify; background: rgba(212, 175, 55, 0.08); border-left: 3px solid #d4af37; padding: 12px 15px; border-radius: 0 6px 6px 0; margin: 15px 0 20px 0;">
-    Ostavština borbe za ukidanje zakona o vješticama vidljiva je i danas na ovome mjestu. <span style="color: #d4af37; font-weight: bold;">Pročitaj Danteovo pjevanje na hrvatskom</span> i u prenesenom značenju uoči simboliku u prostoru i šifru koja te vodi do sljedećeg traga.
-</p>
-                <p style="font-size: 1rem; color: #fff; font-weight: bold; margin-bottom: 10px;">Prijevod pjevanja na hrvatskom:</p>
-                Kao kad iz udarca po žeravici<br>
-                izlete bezbrojne iskre,<br>
-                iz kojih neuki znaju gatati,<br>
-                <strong>tako se ondje podiže više od tisuću svjetala</strong><br>
-                <strong>i uzdiže se, neka više, neka manje —</strong><br>
-                <span style="font-weight:bold; text-decoration:underline;">obasjavajući orla koji ondje stoji.</span>
-            </div>
 			
 			<!-- PRIJEVODI DANTEOVOG PJEVANJA -->
 <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center;">
