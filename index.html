@@ -1512,6 +1512,24 @@
 .pulsing-grb {
     animation: pulseGlow 2s infinite ease-in-out;
 }
+/* Stil za pojedinačnu kućicu slova */
+.slova-kucica {
+    width: 38px;
+    height: 45px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #111;
+    color: #fff;
+    border: 2px solid #d4af37;
+    border-radius: 5px;
+    outline: none;
+}
+.slova-kucica:focus {
+    border-color: #fff;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
+}
 </style>
 </head>
 <body>
@@ -3062,139 +3080,174 @@ else if (currentPuzzle.type === "finalni-kvest") {
         <h3 style="color: #d4af37; text-align:center; margin-bottom:15px;">Finalni trag</h3>
         
         <div id="fin-faza1" style="text-align:center;">
-            <p style="font-style:italic; margin-bottom:15px;">Prouči skicu vrata:</p>
             <div style="margin: 15px auto; width:100%; max-width:280px; border:2px solid #333; padding:5px; background:#111; border-radius:8px;">
                 <img src="vrata.png" alt="Skica vrata" style="width:100%; height:auto; display:block; border-radius:4px;">
             </div>
 
             <p style="font-weight:bold; margin-top:20px; font-size:0.9rem;">Upiši natpis:</p>
             
-            <div class="kucice-wrapper">
-                <div class="kucice-red" style="flex-wrap:wrap; justify-content:center; gap:4px;">
-                    <div class="rijec-blok">
-                        <input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1">
-                    </div>
-                    <span class="razmak"></span>
-                    <div class="rijec-blok">
-                        <input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1">
-                    </div>
-                    <span class="razmak"></span>
-                    <div class="rijec-blok">
-                        <input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1">
-                    </div>
-                    <span class="razmak"></span>
-                    <div class="rijec-blok">
-                        <input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1">
-                    </div>
-                    <span class="razmak"></span>
-                    <div class="rijec-blok">
-                        <input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1"><input type="text" class="box-in f15-natpis" maxlength="1">
-                    </div>
-                </div>
-                
-                <div style="display:flex; justify-content:flex-end; width:100%; max-width:320px; margin: 8px auto 0 auto; align-items:center; gap:3px;">
-                    <input type="text" class="box-in f15-natpis" maxlength="1" style="border-color:#888;"><input type="text" class="box-in f15-natpis" maxlength="1" style="border-color:#888;"><input type="text" class="box-in f15-natpis" maxlength="1" style="border-color:#888;">
-                    <span style="width:5px;"></span>
-                    <input type="text" class="box-in f15-natpis" maxlength="1" style="border-color:#aa6666;"><input type="text" class="box-in f15-natpis" maxlength="1" style="border-color:#aa6666;">
-                </div>
-            </div>
+<div class="kucice-wrapper" style="display: flex; flex-direction: column; align-items: center; width: 100%; box-sizing: border-box; padding: 5px 0; gap: 8px;">
+
+    <!-- 1. OZNAKA ZA PRVI DIO -->
+    <div style="width: 100%; text-align: center; color: #aaa; font-size: 0.85rem; font-weight: bold; margin: 0;">
+        (SLOVA / 5)
+    </div>
+
+    <!-- 2. KUĆICE ZA PRIMARNI NATPIS (DOMUS DEI ET PORTA COELI) -->
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%; gap: 6px; margin-bottom: 10px;">
+        <!-- DOMUS / DOMVS (5) -->
+        <div style="display: flex; justify-content: center; gap: 3px; width: 100%; max-width: 220px;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-1" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-2" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-3" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-4" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-5" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+        </div>
+        <!-- DEI (3) -->
+        <div style="display: flex; justify-content: center; gap: 3px; width: 100%; max-width: 220px;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-6" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-7" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-8" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+        </div>
+        <!-- ET (2) -->
+        <div style="display: flex; justify-content: center; gap: 3px; width: 100%; max-width: 220px;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-9" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-10" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+        </div>
+        <!-- PORTA (5) -->
+        <div style="display: flex; justify-content: center; gap: 3px; width: 100%; max-width: 220px;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-11" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-12" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-13" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-14" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-15" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+        </div>
+        <!-- COELI (5) -->
+        <div style="display: flex; justify-content: center; gap: 3px; width: 100%; max-width: 220px;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-16" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-17" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-18" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-19" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+            <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-20" style="width: calc(20% - 3px); max-width: 36px; height: 42px; text-align: center; text-transform: uppercase; box-sizing: border-box;">
+        </div>
+    </div>
+
+    <!-- 3. OZNAKA ZA DRUGI DIO -->
+    <div style="width: 100%; text-align: center; color: #aaa; font-size: 0.85rem; font-weight: bold; margin-top: 5px;">
+        (SLOVA I BROJEVI / 2)
+    </div>
+
+    <!-- 4. KUĆICE ZA GEN 28 -->
+    <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; max-width: 220px;">
+        <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-21" style="width: 32px; height: 42px; text-align: center; text-transform: uppercase; border-color: #888; box-sizing: border-box;">
+        <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-22" style="width: 32px; height: 42px; text-align: center; text-transform: uppercase; border-color: #888; box-sizing: border-box;">
+        <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-23" style="width: 32px; height: 42px; text-align: center; text-transform: uppercase; border-color: #888; box-sizing: border-box;">
+        <span style="width: 6px;"></span>
+        <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-24" style="width: 32px; height: 42px; text-align: center; text-transform: uppercase; border-color: #aa6666; box-sizing: border-box;">
+        <input type="text" class="box-in f15-natpis auto-next" maxlength="1" id="f15-25" style="width: 32px; height: 42px; text-align: center; text-transform: uppercase; border-color: #aa6666; box-sizing: border-box;">
+    </div>
+
+</div>
 
             <button class="zlatni-gumb" id="gumb-fin1" onclick="provjeriFazu1Natpis()">POTVRDI</button>
 		<button class="hint-btn" onclick="toggleHint('hint-vrata')">HINT 💡</button>
         <div class="hint-text" id="hint-vrata">Genisis lat. = Postanak hrv.</div>
 
         <p id="bozji-dom-tekst" style="display:none; color: #d4af37; font-weight: bold; font-size: 1.3rem; margin-top: 25px; margin-bottom: 10px; text-align: center; letter-spacing: 0.5px;">
-            Božji dom i kuća nebeska
+            🇭🇷 Božja kuća i vrata nebeska
         </p>
 
         <div id="pulsirajuci-kriz" style="display:none; font-size:4.5rem; margin-top:10px; cursor:pointer; color:#d4af37; animation: laganiPulsF14 1s infinite alternate; user-select:none;" onclick="otvoriBiblijuSadrzaj()">♱</div>
         </div>
 
-        <div id="fin-faza2" style="display:none; margin-top:20px;">
-            <hr class="zlatna-linija">
-            <p style="text-align:center; font-style:italic; color:#aaa; font-size:0.9rem;">Sadržaj:</p>
-            
-            <div class="biblija-sadrzaj-grid">
-                <div><span class="knjiga-link" onclick="otvoriDropdownPostanka(this)">Knjiga Postanka</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Knjiga Izlaska</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Levitski zakonik</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Knjiga Brojeva</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Ponovljeni zakonik</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Mudre izreke</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Propovjednik</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Pjesma nad pjesmama</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Knjiga Mudrosti</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Knjiga Sirahova</span></div>
-            </div>
+<div id="fin-faza2" style="display:none; margin-top:20px;">
+    <hr class="zlatna-linija">
+	<p style="text-align: center; font-size: 0.9rem; color: #ff6b6b; background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; padding: 8px 12px; border-radius: 6px; margin: 15px auto; max-width: 90%; font-weight: 600;">
+  ⚠️ <strong>Napomena:</strong> Svaki pogrešan odabir nosi kaznu od <strong>-5 minuta</strong>!
+</p>
+    <p style="text-align:center; font-style:italic; color:#aaa; font-size:0.9rem;">Izaberi traženi sadržaj Biblije:</p>
+    
+    <div class="biblija-sadrzaj-grid">
+        <div><span class="knjiga-link" onclick="otvoriDropdownPostanka(this)">Knjiga Postanka</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Knjiga Izlaska</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Levitski zakonik</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Knjiga Brojeva</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Ponovljeni zakonik</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Mudre izreke</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Propovjednik</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Pjesma nad pjesmama</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Knjiga Mudrosti</span></div>
+        <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Knjiga Sirahova</span></div>
+    </div>
 
-            <div id="postanka-dropdown-sekcija" style="display:none; text-align:center; margin-top:20px; background:#1a1a1a; padding:15px; border-radius:5px; border:1px solid #d4af37;">
-                <label style="font-weight:bold; color:#d4af37; display:block; margin-bottom:10px;">Poglavlje</label>
-                
-                <button class="zlatni-gumb" id="gumb-hint-z" style="padding:5px 10px; font-size:0.8rem; background:#333; margin-bottom:10px;" onclick="prikaziHint('tekst-hint-z', 'gumb-hint-z')">💡 HINT</button>
-                <p id="tekst-hint-z" style="display:none; font-size:0.85rem; color:#ffd54f; margin:0 0 12px 0; font-style:italic; font-weight:bold;">Napomena: Slovo Z je broj.</p>
-                
-                <select id="poglavlje-select" onchange="provjeriPoglavlje(this)" style="padding:12px; font-size:1.1rem; background:#222; color:#fff; border:1px solid #d4af37; border-radius:4px; width:85%;">
-                    <option value="">-- Odaberi poglavlje --</option>
-                </select>
-            </div>
-        </div>
+    <div id="postanka-dropdown-sekcija" style="display:none; text-align:center; margin-top:20px; background:#1a1a1a; padding:15px; border-radius:5px; border:1px solid #d4af37;">
+        <label style="font-weight:bold; color:#d4af37; display:block; margin-bottom:10px;">Izaberi traženo poglavlje u knjizi postanka (slovo Z je zapravo neki broj)!</label>
+        
+        <button class="zlatni-gumb" id="gumb-hint-z" style="padding:5px 10px; font-size:0.8rem; background:#333; margin-bottom:10px;" onclick="prikaziHint('tekst-hint-z', 'gumb-hint-z')">💡 HINT</button>
+        <p id="tekst-hint-z" style="display:none; font-size:0.85rem; color:#ffd54f; margin:0 0 12px 0; font-style:italic; font-weight:bold;">Broj oblikom najsličniji slovu Z.</p>
+        
+        <select id="poglavlje-select" onchange="provjeriPoglavlje(this)" style="padding:12px; font-size:1.1rem; background:#222; color:#fff; border:1px solid #d4af37; border-radius:4px; width:85%;">
+            <option value="">-- Odaberi poglavlje --</option>
+        </select>
+    </div>
+</div>
 
         <div id="fin-faza3" style="display:none; margin-top:20px;">
             <hr class="zlatna-linija">
 <div class="biblija-tekst-okvir" style="background:#fff; color:#222; padding:15px; border-radius:4px; text-align:justify; font-family:'Georgia', serif; font-size:0.95rem; max-height:350px; overflow-y:auto; border-left:4px solid #d4af37; line-height:1.5;">
-                <h4 style="margin-top:0; color:#555; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 5px;">Knjiga Postanka 28</h4>
-                
-                <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
-                    <sup>1</sup> Stoga Izak pozove Jakova, blagoslovi ga te mu naloži: »Nemoj uzimati ženu od kanaanskih djevojaka. 
-                    <sup>2</sup> Odmah se zaputi u Padan Aram, u dom Betuela, oca svoje majke, pa odande sebi uzmi ženu, od kćeri Labana, brata svoje majke. 
-                    <sup>3</sup> A Bog svemožni, El-Šadaj, neka te blagoslovi i neka te učini rodnim i brojnim, tako da postaneš mnoštvo naroda.
-                </p>
+    <h4 style="margin-top:0; color:#555; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 5px;">Knjiga Postanka 28</h4>
+    
+    <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
+        <sup>1</sup> Stoga Izak pozove Jakova, blagoslovi ga te mu naloži: »Nemoj uzimati ženu od kanaanskih djevojaka. 
+        <sup>2</sup> Odmah se zaputi u Padan Aram, u dom Betuela, oca svoje majke, pa odande sebi uzmi ženu, od kćeri Labana, brata svoje majke. 
+        <sup>3</sup> A Bog svemožni, El-Šadaj, neka te blagoslovi i neka te učini rodnim i brojnim, tako da postaneš mnoštvo naroda.
+    </p>
 
-                <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 10px; border-left: 2px solid #d4af37; padding-left: 8px;">
-                    I blagoslovljeno ime njegova veličanstva dovijeka, Et benedictum nomen maiestatis eius in aeternum
-                </p>
+    <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 10px; border-left: 2px solid #d4af37; padding-left: 8px;">
+        I blagoslovljeno ime njegova veličanstva dovijeka, <u>Et benedictum nomen maiestatis eius in aeternum</u>
+    </p>
 
-                <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
-                    <sup>4</sup> Neka protegne na te blagoslov Abrahamov, na te i na tvoje potomstvo, tako da zaposjedneš zemlju u kojoj boraviš kao pridošlica, a koju je Bog predao Abrahamu!« 
-                    <sup>5</sup> Tako Izak otpremi Jakova, i on ode u Padan Aram Labanu, sinu Aramejca Betuela, bratu Rebeke, majke Jakova i Ezava.
-                    <br><br>
-                    <sup>6</sup> Kad je Ezav vidio kako je Izak blagoslovio Jakova kad ga je otpremao u Padan Aram da odande sebi uzme ženu, naređujući mu kad ga je blagoslivljao: »Ne smiješ uzeti ženu od kanaanskih djevojaka«, 
-                    <sup>7</sup> i da je Jakov poslušao svoga oca i svoju majku te otišao u Padan Aram, 
-                    <sup>8</sup> Ezav shvati koliko su djevojke kanaanske mrske njegovu ocu Izaku. 
-                    <sup>9</sup> Stoga ode k Jišmaelu te se, uza žene koje već imaše, oženi Mahalatom, kćerju Jišmaela, sina Abrahamova, a sestrom Nebajotovom. 
-                    <sup>10</sup> Jakovljev san u Betelu Jakov ostavi Beer Šebu i zaputi se u Haran. 
-                    <sup>11</sup> Stigne u neko mjesto i tu prenoći, jer sunce bijaše već zašlo. Uzme jedan kamen s onog mjesta, stavi ga pod glavu i na tom mjestu legne.
-                </p>
+    <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
+        <sup>4</sup> Neka protegne na te blagoslov Abrahamov, na te i na tvoje potomstvo, tako da zaposjedneš zemlju u kojoj boraviš kao pridošlica, a koju je Bog predao Abrahamu!« 
+        <sup>5</sup> Tako Izak otpremi Jakova, i on ode u Padan Aram Labanu, sinu Aramejca Betuela, bratu Rebeke, majke Jakova i Ezava.
+        <br><br>
+        <sup>6</sup> Kad je Ezav vidio kako je Izak blagoslovio Jakova kad ga je otpremao u Padan Aram da odande sebi uzme ženu, naređujući mu kad ga je blagoslivljao: »Ne smiješ uzeti ženu od kanaanskih djevojaka«, 
+        <sup>7</sup> i da je Jakov poslušao svoga oca i svoju majku te otišao u Padan Aram, 
+        <sup>8</sup> Ezav shvati koliko su djevojke kanaanske mrske njegovu ocu Izaku. 
+        <sup>9</sup> Stoga ode k Jišmaelu te se, uza žene koje već imaše, oženi Mahalatom, kćerju Jišmaela, sina Abrahamova, a sestrom Nebajotovom. 
+        <sup>10</sup> Jakovljev san u Betelu Jakov ostavi Beer Šebu i zaputi se u Haran. 
+        <sup>11</sup> Stigne u neko mjesto i tu prenoći, jer sunce bijaše već zašlo. Uzme jedan kamen s onog mjesta, stavi ga pod glavu i na tom mjestu legne.
+    </p>
 
-                <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 10px; border-left: 2px solid #d4af37; padding-left: 8px;">
-                    <sup>12</sup> I usne san: ljestve stoje na zemlji, a vrhom do neba dopiru, i anđeli Božji po njima se penju i silaze.
-                </p>
+    <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 10px; border-left: 2px solid #d4af37; padding-left: 8px;">
+        <sup>12</sup> I usne san: ljestve stoje na zemlji, a vrhom do neba dopiru, <u>i anđeli Božji po njima se penju i silaze.</u>
+    </p>
 
-                <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
-                    <sup>13</sup> Uza nju je Jahve te mu govori: »Za sam Jahve, Bog tvoga praoca Abrahama i Bog Izakov. Zemlju na kojoj ležiš dat ću tebi i tvome potomstvu. 
-                    <sup>14</sup> Tvojih će potomaka biti kao i praha na zemlji; raširit ćete se na zapad, istok, sjever i jug; tobom će se i tvojim potomstvom blagoslivljati svi narodi zemlje. 
-                    <sup>15</sup> Dobro znaj: ja sam s tobom; čuvat ću te kamo god pođeš te ću te dovesti natrag u ovu zemlju; i neću te ostaviti dok ne izvršim što sam ti obećao.«
-                </p>
+    <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
+        <sup>13</sup> Uza nju je Jahve te mu govori: »Za sam Jahve, Bog tvoga praoca Abrahama i Bog Izakov. Zemlju na kojoj ležiš dat ću tebi i tvome potomstvu. 
+        <sup>14</sup> Tvojih će potomaka biti kao i praha na zemlji; raširit ćete se na zapad, istok, sjever i jug; tobom će se i tvojim potomstvom blagoslivljati svi narodi zemlje. 
+        <sup>15</sup> Dobro znaj: ja sam s tobom; čuvat ću te kamo god pođeš te ću te dovesti natrag u ovu zemlju; i neću te ostaviti dok ne izvršim što sam ti obećao.«
+    </p>
 
-                <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 10px; border-left: 2px solid #d4af37; padding-left: 8px;">
-                    <sup>16</sup> Jakov se probudi od sna te reče: »Zaista se Matej nalazi na ovome mjestu, ali ja nisam znao!« 
-                    <sup>17</sup> Potresen, uzviknu: »Kako je lijepo ovo mjesto! Zaista, ovo je kuća Božja, ovo su vrata nebeska!«
-                </p>
+    <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 10px; border-left: 2px solid #d4af37; padding-left: 8px;">
+        <sup>16</sup> Jakov se probudi od sna te reče: »<u>Zaista se Matej nalazi na ovome mjestu</u>, ali ja nisam znao!« 
+        <sup>17</sup> Potresen, uzviknu: »Kako je lijepo ovo mjesto! Zaista, <u>ovo je kuća Božja, ovo su vrata nebeska</u>!«
+    </p>
 
-                <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
-                    <sup>18</sup> Rano ujutro Jakov uzme onaj kamen što ga bijaše stavio pod glavu, uspravi ga kao stup i po vrhu mu izlije ulja. 
-                    <sup>19</sup> Ono mjesto on nazva Betel, dok je ime tome gradu prije bilo Luz.
-                </p>
+    <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
+        <sup>18</sup> Rano ujutro Jakov uzme onaj kamen što ga bijaše stavio pod glavu, uspravi ga kao stup i po vrhu mu izlije ulja. 
+        <sup>19</sup> Ono mjesto on nazva Betel, dok je ime tome gradu prije bilo Luz.
+    </p>
 
-                <p style="font-size: 0.72rem; color: #888; margin-bottom: 5px;">
-                    <sup>20</sup> Tada učini zavjet: »Ako Bog ostane sa mnom i uščuva me na ovom putu kojim idem, dade mi kruha da jedem i odijela da se oblačim, 
-                    <sup>21</sup> te se zdravo vratim kući svoga oca, Jahve će biti moj Bog.
-                </p>
+    <p style="font-size: 0.72rem; color: #888; margin-bottom: 5px;">
+        <sup>20</sup> Tada učini zavjet: »Ako Bog ostane sa mnom i uščuva me na ovom putu kojim idem, dade mi kruha da jedem i odijela da se oblačim, 
+        <sup>21</sup> te se zdravo vratim kući svoga oca, Jahve će biti moj Bog.
+    </p>
 
-                <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 0; border-left: 2px solid #d4af37; padding-left: 8px;">
-                    <sup>22</sup> A ovo kamenje koje sam uspravio kao stupove činit će kuću Božju. I ova četiri evanđelista neka me čuvaju, a Bog njima dade još četiri bića koja njih čuvaju, i Katarinu...«
-                </p>
-            </div>
+    <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 0; border-left: 2px solid #d4af37; padding-left: 8px;">
+        <sup>22</sup> A <u>ovo kamenje koje sam uspravio kao stupove činit će kuću Božju</u>. I <u>ova četiri evanđelista</u> neka me čuvaju, a Bog njima dade još <u>četiri bića</u> koja njih čuvaju, i <u>Katarinu</u>...«
+    </p>
+</div>
 
             <div style="text-align:center; margin-top:15px;">
                 <button class="zlatni-gumb" id="gumb-hint-andjeli" style="padding:5px 10px; font-size:0.8rem; background:#333;" onclick="prikaziHint('tekst-hint-andjeli', 'gumb-hint-andjeli')">💡 HINT</button>
@@ -3203,26 +3256,43 @@ else if (currentPuzzle.type === "finalni-kvest") {
                 </div>
             </div>
 
-            <p style="text-align:center; font-weight:bold; margin-top:20px; color:#d4af37;">Koja riječ je ovdje uljez?</p>
-            <input type="text" id="input-uljez" placeholder="Upiši riječ..." style="text-transform:uppercase; padding:10px; font-size:1.1rem; width:85%; text-align:center; border:2px solid #d4af37; background:#111; color:#fff; border-radius:5px; display:block; margin:10px auto;">
+            <p style="text-align:center; font-weight:bold; margin-top:20px; color:#d4af37;">Koja riječ je uljez? Što se ne uklapa sa stvarnim stanjem?</p>
+           <div style="text-align: center; margin: 15px 0;">
+    <!-- Kućice za unos slova -->
+    <div id="ljestve-kucice-container" style="display: flex; justify-content: center; gap: 6px; margin-bottom: 10px;">
+        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 0)" onkeydown="obrisiSlovo(event, 0)">
+        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 1)" onkeydown="obrisiSlovo(event, 1)">
+        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 2)" onkeydown="obrisiSlovo(event, 2)">
+        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 3)" onkeydown="obrisiSlovo(event, 3)">
+        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 4)" onkeydown="obrisiSlovo(event, 4)">
+        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 5)" onkeydown="obrisiSlovo(event, 5)">
+        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 6)" onkeydown="obrisiSlovo(event, 6)">
+    </div>
+
+    <!-- Oznaka s brojem slova -->
+    <span style="color: #aaa; font-size: 0.85rem; font-weight: bold; ">(SLOVA / 1)</span>
+</div>
             <button class="zlatni-gumb" onclick="provjeriUljeza()">POTVRDI RIJEČ</button>
         </div>
 
         <div id="fin-faza4" style="display:none; margin-top:20px; text-align:center;">
             <hr class="zlatna-linija">
             <p style="font-weight:bold; color:#d4af37; margin-bottom:15px;">Tko je Katarinin prijatelj?</p>
+							<p style="text-align: center; font-size: 0.9rem; color: #ff6b6b; background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; padding: 8px 12px; border-radius: 6px; margin: 15px auto; max-width: 90%; font-weight: 600;">
+  ⚠️ <strong>Napomena:</strong> Svaki pogrešan odabir nosi kaznu od <strong>-3 minute</strong>!
+</p>
             
-            <div class="biblija-sadrzaj-grid">
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Matej</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Marko</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Luka</span></div>
-                <div><span class="knjiga-link" id="link-ivan-evandjelje" onclick="pokreniStrofeIvana(this)">Ivan</span></div>
-				<div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Jišaj</span></div>
-				<div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Abraham</span></div>
-				<div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Petar</span></div>
-				<div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Juda</span></div>
-                <div><span class="knjiga-link" onclick="krivaKnjigaKlik()">Djela apostolska</span></div>
-            </div>
+<div class="biblija-sadrzaj-grid">
+    <div><span class="knjiga-link" onclick="kriviPrijateljKlik()">Matej</span></div>
+    <div><span class="knjiga-link" onclick="kriviPrijateljKlik()">Marko</span></div>
+    <div><span class="knjiga-link" onclick="kriviPrijateljKlik()">Luka</span></div>
+    <div><span class="knjiga-link" id="link-ivan-evandjelje" onclick="pokreniStrofeIvana(this)">Ivan</span></div>
+    <div><span class="knjiga-link" onclick="kriviPrijateljKlik()">Jišaj</span></div>
+    <div><span class="knjiga-link" onclick="kriviPrijateljKlik()">Abraham</span></div>
+    <div><span class="knjiga-link" onclick="kriviPrijateljKlik()">Petar</span></div>
+    <div><span class="knjiga-link" onclick="kriviPrijateljKlik()">Juda</span></div>
+    <div><span class="knjiga-link" onclick="kriviPrijateljKlik()">Djela apostolska</span></div>
+</div>
 
             <div id="ivan-strofe-kontejner" style="display:none; background:#0a0a0a; border:1px dashed #444; padding:15px; margin-top:20px; text-align:left; border-radius:4px; transition: all 0.5s ease;">
                 
@@ -3555,6 +3625,7 @@ function buildColoredBoxInputs(containerId, count, prefix, nextContainerId, bgCo
 // ==========================================
 
 // 1. KAZNENO VRIJEME (Preslikano iz 6. traga)
+// Glavna funkcija za dodavanje kazne i prikaz poruke
 function dodajKaznenoVrijeme(minute = 5) {
     const sekundeZaOduzeti = minute * 60;
     const msZaOduzeti = sekundeZaOduzeti * 1000;
@@ -3576,38 +3647,54 @@ function dodajKaznenoVrijeme(minute = 5) {
     if (typeof updateTimerDisplay === 'function') updateTimerDisplay();
     if (typeof updateTimer === 'function') updateTimer();
     if (typeof renderTimer === 'function') renderTimer();
-    if (typeof osvjeziPrikazTajmera === 'function') osvjeziPrikazTajmera();
+    if (typeof osvjeziTajmer === 'function') osvjeziTajmer();
+    if (typeof prikaziVrijeme === 'function') prikaziVrijeme();
 
-    // 3. PRIKAZ PORUKE VISOKO NA EKRANU (JS sam stvara ili koristi element na vrhu)
-    let topMsg = document.getElementById('top-penalty-message');
-    
-    // Ako element ne postoji u HTML-u, stvori ga na vrhu tijela/kontejnera
-    if (!topMsg) {
-        topMsg = document.createElement('div');
-        topMsg.id = 'top-penalty-message';
-        topMsg.style.position = 'relative';
-        topMsg.style.zIndex = '10000';
-        topMsg.style.width = '100%';
-        topMsg.style.textAlign = 'center';
-        topMsg.style.color = '#ff3333';
-        topMsg.style.fontWeight = 'bold';
-        topMsg.style.fontSize = '1.1rem';
-        topMsg.style.margin = '10px 0';
-
-        // Ubacuje poruku na sam vrh glavnog kontejnera ili stranice
-        const container = document.querySelector('.container') || document.body;
-        container.insertBefore(topMsg, container.firstChild);
+    // 3. SAKRIVANJE STAROG POP-UPA (ako ga generira neki skriveni JS)
+    const stariPopUp = document.getElementById('top-penalty-message');
+    if (stariPopUp) {
+        stariPopUp.style.display = 'none';
+        stariPopUp.innerText = '';
     }
 
-    // Postavi tekst poruke
-    topMsg.innerText = "❌ Pogrešno mjesto! Kazna: -5 minuta!";
+    // 4. PRIKAZ NOVE DINAMIČKE PORUKE
+    let noviMsg = document.getElementById('novi-dinamicki-kazna-popup');
 
-    // Sakrij poruku nakon 3 sekunde
+    if (!noviMsg) {
+        noviMsg = document.createElement('div');
+        noviMsg.id = 'novi-dinamicki-kazna-popup';
+        noviMsg.style.position = 'fixed';
+        noviMsg.style.top = '20px';
+        noviMsg.style.left = '50%';
+        noviMsg.style.transform = 'translateX(-50%)';
+        noviMsg.style.zIndex = '999999';
+        noviMsg.style.backgroundColor = '#ff3333';
+        noviMsg.style.color = '#ffffff';
+        noviMsg.style.padding = '12px 24px';
+        noviMsg.style.borderRadius = '8px';
+        noviMsg.style.fontWeight = 'bold';
+        noviMsg.style.fontSize = '1.1rem';
+        noviMsg.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+        noviMsg.style.pointerEvents = 'none';
+
+        document.body.appendChild(noviMsg);
+    }
+
+    // Postavi točan broj minuta
+    noviMsg.innerText = `❌ Pogrešno mjesto! Kazna: -${minute} min`;
+    noviMsg.style.display = 'block';
+
+    // Sakrij novu poruku nakon 3 sekunde
     setTimeout(() => {
-        if (topMsg) {
-            topMsg.innerText = "";
+        if (noviMsg) {
+            noviMsg.style.display = 'none';
         }
     }, 3000);
+}
+
+// Pomoćna funkcija – ako bilo koji dio koda pozove dodajPenal, samo proslijedi minute dalje
+function dodajPenal(minute = 5) {
+    dodajKaznenoVrijeme(minute);
 }
 
 function pokaziPenaltyToast(tekst) {
@@ -4248,7 +4335,7 @@ function p6IzvrsiValidacijuSpajanja(zonaId, objekatId) {
             errEl.style.textAlign = "center";
             errEl.style.fontSize = "1rem";
             
-            errEl.innerText = "❌ Kriva strana! Kazna: -5 minuta!";
+            errEl.innerText = "❌ Kriva strana! Kazna: -3 do -5 minuta!";
             errEl.style.display = "block";
 
             setTimeout(() => { 
@@ -5578,8 +5665,24 @@ function ispisiGresku15(tekst, isCorrect = false) {
     err.innerText = tekst;
 }
 
+// Stara funkcija – ostaje 5 minuta kazne i sakriva dropdown Postanka
 function krivaKnjigaKlik() {
-    ispisiGresku15("Ova knjiga ne skriva tražene informacije.");
+    document.getElementById('postanka-dropdown-sekcija').style.display = 'none';
+
+    if (typeof dodajKaznenoVrijeme === "function") {
+        dodajKaznenoVrijeme(5); 
+    } else if (typeof dodajPenal === "function") {
+        dodajPenal(5);
+    }
+}
+
+// Nova funkcija – točno 3 minute kazne za Katarininog prijatelja, ne dira Postanku
+function kriviPrijateljKlik() {
+    if (typeof dodajKaznenoVrijeme === "function") {
+        dodajKaznenoVrijeme(3); 
+    } else if (typeof dodajPenal === "function") {
+        dodajPenal(3);
+    }
 }
 
 function provjeriFazu1Natpis() {
@@ -5605,24 +5708,61 @@ function otvoriBiblijuSadrzaj() {
 }
 
 function otvoriDropdownPostanka(element) {
-    ispisiGresku15("");
+    if (typeof ispisiGresku15 === "function") ispisiGresku15("");
     document.getElementById('postanka-dropdown-sekcija').style.display = 'block';
     document.getElementById('postanka-dropdown-sekcija').scrollIntoView({ behavior: 'smooth' });
 }
 
-function provjeriPoglavlje(selectElement) {
-    if (selectElement.value === "28") {
-        ispisiGresku15("");
-        document.getElementById('fin-faza3').style.display = 'block';
-        document.getElementById('fin-faza3').scrollIntoView({ behavior: 'smooth' });
-    } else if (selectElement.value !== "") {
-        ispisiGresku15("Odabrano poglavlje ne skriva traženi trag.");
+// Funkcija za krivi odabir knjige
+function krivaKnjigaKlik() {
+    document.getElementById('postanka-dropdown-sekcija').style.display = 'none';
+
+    // Prosljeđujemo 5 (pet minuta kazne)
+    if (typeof dodajKaznenoVrijeme === "function") {
+        dodajKaznenoVrijeme(5); 
+    } else if (typeof dodajPenal === "function") {
+        dodajPenal(5);
     }
 }
 
+// Funkcija za provjeru poglavlja
+function provjeriPoglavlje(selectElement) {
+    if (selectElement.value === "28") {
+        if (typeof ispisiGresku15 === "function") ispisiGresku15("");
+        document.getElementById('fin-faza3').style.display = 'block';
+        document.getElementById('fin-faza3').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Pomoćne funkcije za automatsko prebacivanje fokusa s kućice na kućicu
+function pomakniFokus(input, index) {
+    input.value = input.value.toUpperCase();
+    const kucice = document.querySelectorAll('.slova-kucica');
+
+    // Ako je uneseno slovo, prebaci na sljedeću kućicu
+    if (input.value.length === 1 && index < kucice.length - 1) {
+        kucice[index + 1].focus();
+    }
+}
+
+function obrisiSlovo(e, index) {
+    const kucice = document.querySelectorAll('.slova-kucica');
+
+    // Ako igrač stisne Backspace na praznoj kućici, vrati fokus na prethodnu
+    if (e.key === "Backspace" && kucice[index].value === "" && index > 0) {
+        kucice[index - 1].focus();
+    }
+}
+
+// Ažurirana glavna provjera
 function provjeriUljeza() {
-    let r = document.getElementById('input-uljez').value.trim().toUpperCase();
-    if (r === "LJESTVE") {
+    const kucice = document.querySelectorAll('.slova-kucica');
+    let unos = "";
+
+    // Spajamo sva unesena slova u jednu riječ
+    kucice.forEach(k => unos += k.value.trim().toUpperCase());
+
+    if (unos === "LJESTVE") {
         ispisiGresku15("");
         document.getElementById('fin-faza4').style.display = 'block';
         document.getElementById('fin-faza4').scrollIntoView({ behavior: 'smooth' });
@@ -6110,7 +6250,7 @@ function dodajKaznenoVrijeme(minute = 5) {
         errEl.style.textAlign = "center";
         errEl.style.fontSize = "1rem";
         
-        errEl.innerText = "❌ Krivi pokušaj! Kazna: -5 minuta!";
+        errEl.innerText = "❌ Krivi pokušaj! Kazna: -3 do -5 minuta!";
         errEl.style.display = "block";
 
         setTimeout(() => { 
@@ -6121,6 +6261,7 @@ function dodajKaznenoVrijeme(minute = 5) {
         }, 2500);
     }
 }
+
 </script>
 <div class="rjesenja-fiksni-gumb" onclick="otvoriProvjeruRjesenja()">💡</div>
 
