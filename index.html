@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordo Lucis - Urban Escape</title>
 	<link rel="manifest" href="manifest.json">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="apple-mobile-web-app-title" content="Urban Escape">
@@ -1547,6 +1548,12 @@
     transform: scale(0.96);
     background: rgba(212, 175, 55, 0.2);
 }
+#pdf-viewer-container {
+    -webkit-overflow-scrolling: touch; /* Omogućuje prirodni zamašnjak skrolanja na iPhone-u */
+}
+#pdf-viewer-container canvas {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
 </style>
 </head>
 <body>
@@ -2031,7 +2038,7 @@ else if (currentPuzzle.type === "drag-popup-puzzle") {
         </div>
 
         <button class="hint-btn" onclick="toggleHint('hint-3')" style="margin-top:15px;">HINT 💡</button>
-        <div class="hint-text" id="hint-3" style="display:none;">Franciscus Imperator Austriae.</div>
+        <div class="hint-text" id="hint-3" style="display:none;">Imperium Austriacum.</div>
 
         <!-- UNOS TRIJU SLOVA (FIA) -->
         <div id="fia-inputs-container" style="margin-top:20px;">
@@ -2446,7 +2453,26 @@ else if (currentPuzzle.type === "knjiga-puzzle") {
     contentDiv.innerHTML = `
         <p>Isti pojam pronaći ćeš na samome početku knjige. Pronađi ga i upiši ukupan broj riječi u prvoj strofi kako bi dobio potpuni prijevod iste.</p>
         
-        <div style="font-size: 4rem; cursor: pointer; text-align: center; margin: 15px 0;" onclick="otvoriPDF()">📗</div>
+<!-- Klikabilna ikona (Klik na nju otvara/zatvara prozor) -->
+<div style="text-align: center; margin: 15px 0;">
+    <div style="font-size: 4rem; cursor: pointer; display: inline-block; user-select: none;" onclick="otvoriPDF()">📗</div>
+    <p style="color: #aaa; font-size: 0.85rem; font-style: italic; margin-top: 5px;">(Klikni knjigu za prikaz)</p>
+</div>
+
+<!-- Prozor s Google Drive prikazom -->
+<div id="pdf-modal" style="display: none; margin: 20px auto; max-width: 600px; padding: 10px; background: rgba(0,0,0,0.85); border: 1px solid #d4af37; border-radius: 8px;">
+    
+    <div style="text-align: right; margin-bottom: 8px;">
+        <button type="button" onclick="otvoriPDF()" style="background: #e74c3c; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; font-weight: bold; cursor: pointer;">
+            ✕ Zatvori knjigu
+        </button>
+    </div>
+
+    <div style="width: 100%; height: 60vh; border-radius: 4px; overflow: hidden; background: #fff;">
+        <!-- OVDJE UBAČAJ SVOJ PUNI GOOGLE DRIVE EMBED LINK -->
+        <iframe src="https://drive.google.com/file/d/12xYe5g6rXPSAUa2-DhgMVv6HwA69dNGw/preview" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+</div>
         
         <!-- PROVJERA BROJA RIJEČI (15) -->
         <div id="faza-rijeci-kontejner" style="text-align: center; margin: 15px 0;">
@@ -4773,7 +4799,7 @@ window.provjeriBrojRijeci = function() {
     } else {
         if (greskaEl) {
             greskaEl.style.display = 'block';
-            greskaEl.innerText = "Broj riječi nije točan. Prebroj ponovno prvu strofu!";
+            greskaEl.innerText = "Broj riječi nije točan. Prebroji ponovno prvu strofu!";
         }
         // Kažnjavanje krivog unosa ako koristiš sustav -5 min
         if (typeof primijeniKaznu === "function") {
@@ -4819,9 +4845,11 @@ function azurirajPrikazBrojcanika() {
 }
 
 // PDF otvaranje i zatvaranje
-function otvoriPDF() { 
+function otvoriPDF() {
     const modal = document.getElementById('pdf-modal');
-    if (modal) modal.style.display = 'block'; 
+    if (!modal) return;
+    
+    modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
 }
 
 function zatvoriPDF() { 
