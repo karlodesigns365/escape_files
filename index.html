@@ -1530,6 +1530,23 @@
     border-color: #fff;
     box-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
 }
+.uljez-btn {
+    background: rgba(0, 0, 0, 0.6);
+    color: #e0e0e0;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 6px;
+    padding: 12px 8px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    -webkit-tap-highlight-color: transparent;
+}
+.uljez-btn:active {
+    transform: scale(0.96);
+    background: rgba(212, 175, 55, 0.2);
+}
 </style>
 </head>
 <body>
@@ -1558,7 +1575,7 @@
     
     <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
         <span style="font-size: 1.2rem;">📱</span>
-        <span><strong>Oznaka mobitela:</strong> Ako se uz trag pojavi ikona mobitela, rješenje tražite <em>isključivo na ekranu</em>. Ako ikone nema, obavezno pažljivo <strong>promatrajte i svoju okolinu</strong>!</span>
+        <span><strong>Oznaka mobitela:</strong> Ako se uz trag pojavi ikona mobitela, rješenje tražite <em>isključivo na ekranu <b>SAMO za</b> <b>RJEŠENJE NEPOSREDNO NAKON SAME NAPOMENE!</b></em> Ako ikone nema, obavezno pažljivo <strong>promatrajte i svoju okolinu</strong>!</span>
     </li>
 
     <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
@@ -1762,19 +1779,37 @@ const puzzles = [
         }
     };
 
-    function startQuest() {
-        currentStage = 'QUEST';
-        currentPuzzleIndex = 0;
-        startTime = Date.now();
-        localStorage.setItem('ordo_stage', currentStage);
-        localStorage.setItem('ordo_puzzle_idx', currentPuzzleIndex);
-        localStorage.setItem('ordo_start_time', startTime);
+// Izmijenjena startQuest funkcija
+function startQuest() {
+    currentStage = 'QUEST';
+    currentPuzzleIndex = 0;
+    startTime = Date.now();
+    localStorage.setItem('ordo_stage', currentStage);
+    localStorage.setItem('ordo_puzzle_idx', currentPuzzleIndex);
+    localStorage.setItem('ordo_start_time', startTime);
 
-        document.getElementById('slide-intro').classList.remove('active');
-        document.getElementById('timer-container').style.display = 'block';
-        startTimer();
-        loadPuzzle(currentPuzzleIndex);
+    // Sakrij uvodnu karticu s napomenama
+    const introCard = document.getElementById('intro-card');
+    if (introCard) {
+        introCard.style.display = 'none';
     }
+
+    document.getElementById('slide-intro').classList.remove('active');
+    document.getElementById('timer-container').style.display = 'block';
+    startTimer();
+    loadPuzzle(currentPuzzleIndex);
+}
+
+// Provjera pri osvježavanju stranice (F5)
+document.addEventListener("DOMContentLoaded", function() {
+    // Ako je igra već pokrenuta, drži uvodnu karticu sakrivenom
+    if (localStorage.getItem('ordo_stage') === 'QUEST') {
+        const introCard = document.getElementById('intro-card');
+        if (introCard) {
+            introCard.style.display = 'none';
+        }
+    }
+});
 
     function startTimer() {
         updateTimer();
@@ -1923,9 +1958,9 @@ if (currentPuzzle.type === "first-puzzle") {
 else if (currentPuzzle.type === "canva-puzzle") {
             contentDiv.innerHTML = `
 
-                <div class="canva-wrapper">
-                    <iframe loading="lazy" src="https://www.canva.com/design/DAG_tHxPKg0/Mie8ikKDEi3JrALd19yZaA/view?embed" allowfullscreen="allowfullscreen"></iframe>
-                </div>
+<div class="canva-wrapper" style="text-align: center; margin: 15px 0; height: auto !important; padding: 0 !important;">
+    <img src="Ban.png" alt="Zagonetka trag" style="max-width: 100%; height: auto !important; width: auto; border-radius: 8px; border: 1px solid #d4af37; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: block; margin: 0 auto;">
+</div>
 
                 <p class="note" style="text-align:center;">Unesite rješenje:</p>
 
@@ -2001,7 +2036,7 @@ else if (currentPuzzle.type === "drag-popup-puzzle") {
         <!-- UNOS TRIJU SLOVA (FIA) -->
         <div id="fia-inputs-container" style="margin-top:20px;">
             <p style="text-align:center; font-style:italic; font-size:0.9rem; line-height:1.4; color:#ddd; margin-bottom:12px;">
-                Upiši kraticu naslova cara koji je stvorio leopoldov red i orden. Početno slovo imena nije dovoljno. Dodaj i početna slova latinskog naslova austrijskog cara;
+                Upiši kraticu naslova cara koji je stvorio leopoldov red i orden. Početno slovo imena nije dovoljno. Dodaj i početna slova latinskog naziva austrijskog carstva:
             </p>
 
             <!-- OZNAKA TIPA UNOSA (Slova / 1 riječ) -->
@@ -2409,13 +2444,69 @@ else if (currentPuzzle.type === "potepuh-puzzle") {
 // TRAG 9: KNJIGA
 else if (currentPuzzle.type === "knjiga-puzzle") {
     contentDiv.innerHTML = `
-        <p>Isti pojam pronaći ćeš na samome početku knjige. Pronađi ga kako bi dobio potpuni prijevod iste.</p>
+        <p>Isti pojam pronaći ćeš na samome početku knjige. Pronađi ga i upiši ukupan broj riječi u prvoj strofi kako bi dobio potpuni prijevod iste.</p>
         
         <div style="font-size: 4rem; cursor: pointer; text-align: center; margin: 15px 0;" onclick="otvoriPDF()">📗</div>
         
-        <p style="font-size: 0.95rem; line-height: 1.5; color: #ddd; font-style: italic; text-align: center;">
-            "Tvoja tražena šifra se spominje u knjizi, ali ako malo bolje pogledaš, u stvarnosti je malo drugačija. Izmijeni šifru sukladno stanju u stvarnosti."
-        </p>
+        <!-- PROVJERA BROJA RIJEČI (15) -->
+        <div id="faza-rijeci-kontejner" style="text-align: center; margin: 15px 0;">
+            <p style="font-weight: bold; margin-bottom: 8px;">Upiši ukupan broj riječi:</p>
+            <div style="display: flex; justify-content: center; gap: 10px; align-items: center;">
+                <input type="tel" id="input-broj-rijeci" inputmode="numeric" maxlength="2" style="width: 60px; height: 45px; text-align: center; font-size: 1.5rem; font-weight: bold; background: #000; color: #d4af37; border: 2px solid #d4af37; border-radius: 6px; outline: none;">
+                <button type="button" onclick="provjeriBrojRijeci()" style="padding: 10px 18px; font-weight: bold; background: #d4af37; color: #111; border: none; border-radius: 6px; cursor: pointer;">POTVRDI</button>
+            </div>
+            <div id="greska-rijeci" style="color: #ff3333; font-weight: bold; font-size: 0.9rem; margin-top: 8px; display: none;"></div>
+        </div>
+
+        <!-- PRIJEVOD STROFE (Skriveno dok ne unesu 15) -->
+        <div id="prijevod-strofe" style="display: none; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center;">
+            <p style="font-size: 1rem; color: #d4af37; font-weight: bold; margin-top: 0; margin-bottom: 8px;">Prijevod strofe:</p>
+            <p style="font-style: italic; font-size: 0.95rem; color: #e0e0e0; line-height: 1.6; margin-bottom: 0;">
+                "Na vješalima vise trojica osuđenika, trojica lopova, trojica obješenih ljudi, a pod (pored) nji(h)ma crni skitnica tamburu svira Petrica."
+            </p>
+        </div>
+
+        <!-- SEF I LOCKER DIO (Skriveno dok ne unesu 15) -->
+        <div id="faza-brojcanik-wrapper" style="display: none;">
+            <p style="font-size: 0.95rem; line-height: 1.5; color: #ddd; font-style: italic; text-align: center;">
+                "Tvoja tražena šifra se spominje u knjizi, ali ako malo bolje pogledaš, u stvarnosti je malo drugačija. Izmijeni šifru sukladno stanju u stvarnosti."
+            </p>
+
+            <!-- DIZAJN BROJČANIKA (SEF LOCKER) -->
+            <div style="background: linear-gradient(145deg, #2c2c2c, #1a1a1a); border: 3px solid #d4af37; border-radius: 12px; padding: 20px 10px; margin: 20px auto; max-width: 280px; box-shadow: 0 8px 25px rgba(0,0,0,0.6); display: flex; flex-direction: column; align-items: center;">
+                
+                <div style="display: flex; gap: 15px; justify-content: center; align-items: center; margin-bottom: 15px;">
+                    <!-- Valjak 1 -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <button type="button" onclick="promijeniBroj(1, 1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-bottom: 5px;">▲</button>
+                        <div id="dial-1" style="width: 55px; height: 65px; background: #000; color: #fff; border: 2px solid #555; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; font-weight: bold; font-family: monospace; box-shadow: inset 0 0 10px rgba(255,255,255,0.2); user-select: none;">0</div>
+                        <button type="button" onclick="promijeniBroj(1, -1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-top: 5px;">▼</button>
+                    </div>
+
+                    <!-- Valjak 2 -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <button type="button" onclick="promijeniBroj(2, 1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-bottom: 5px;">▲</button>
+                        <div id="dial-2" style="width: 55px; height: 65px; background: #000; color: #fff; border: 2px solid #555; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; font-weight: bold; font-family: monospace; box-shadow: inset 0 0 10px rgba(255,255,255,0.2); user-select: none;">0</div>
+                        <button type="button" onclick="promijeniBroj(2, -1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-top: 5px;">▼</button>
+                    </div>
+
+                    <!-- Valjak 3 -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <button type="button" onclick="promijeniBroj(3, 1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-bottom: 5px;">▲</button>
+                        <div id="dial-3" style="width: 55px; height: 65px; background: #000; color: #fff; border: 2px solid #555; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; font-weight: bold; font-family: monospace; box-shadow: inset 0 0 10px rgba(255,255,255,0.2); user-select: none;">0</div>
+                        <button type="button" onclick="promijeniBroj(3, -1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-top: 5px;">▼</button>
+                    </div>
+                </div>
+
+                <button type="button" onclick="provjeriSifru()" style="width: 100%; padding: 10px; font-size: 1rem; font-weight: bold; background: #d4af37; color: #000; border: none; border-radius: 6px; cursor: pointer;">POTVRDI</button>
+            </div>
+
+            <button type="button" class="hint-btn" onclick="toggleHint('hint-9')">HINT 💡</button>
+            <div class="hint-text" id="hint-9">Galženjaci, tati i obešenjaci.</div>
+            
+            <!-- Poruke grešaka i naputaka -->
+            <div id="knjiga-poruka" style="text-align:center; font-size: 0.95rem; font-weight:bold; margin-top:15px; padding: 10px; border-radius: 6px; display: none;"></div>
+        </div>
 
         <!-- PDF MODAL -->
         <div id="pdf-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999;">
@@ -2424,46 +2515,11 @@ else if (currentPuzzle.type === "knjiga-puzzle") {
                     ✕ ZATVORI
                 </button>
             </div>
-            <iframe src="https://drive.google.com/file/d/1_RUngjD8ZKDfUeUP92r60IUAtYfkNGHt/preview" style="width:100%; height:calc(100% - 55px); border:none;"></iframe>
+            <iframe src="Kerempuh.pdf" style="width:100%; height:calc(100% - 55px); border:none;"></iframe>
         </div>
-
-        <!-- DIZAJN BROJČANIKA (SEF LOCKER) -->
-        <div style="background: linear-gradient(145deg, #2c2c2c, #1a1a1a); border: 3px solid #d4af37; border-radius: 12px; padding: 20px 10px; margin: 20px auto; max-width: 280px; box-shadow: 0 8px 25px rgba(0,0,0,0.6); display: flex; flex-direction: column; align-items: center;">
-            
-            <div style="display: flex; gap: 15px; justify-content: center; align-items: center; margin-bottom: 15px;">
-                <!-- Valjak 1 -->
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <button type="button" onclick="promijeniBroj(1, 1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-bottom: 5px;">▲</button>
-                    <div id="dial-1" style="width: 55px; height: 65px; background: #000; color: #fff; border: 2px solid #555; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; font-weight: bold; font-family: monospace; box-shadow: inset 0 0 10px rgba(255,255,255,0.2); user-select: none;">0</div>
-                    <button type="button" onclick="promijeniBroj(1, -1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-top: 5px;">▼</button>
-                </div>
-
-                <!-- Valjak 2 -->
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <button type="button" onclick="promijeniBroj(2, 1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-bottom: 5px;">▲</button>
-                    <div id="dial-2" style="width: 55px; height: 65px; background: #000; color: #fff; border: 2px solid #555; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; font-weight: bold; font-family: monospace; box-shadow: inset 0 0 10px rgba(255,255,255,0.2); user-select: none;">0</div>
-                    <button type="button" onclick="promijeniBroj(2, -1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-top: 5px;">▼</button>
-                </div>
-
-                <!-- Valjak 3 -->
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <button type="button" onclick="promijeniBroj(3, 1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-bottom: 5px;">▲</button>
-                    <div id="dial-3" style="width: 55px; height: 65px; background: #000; color: #fff; border: 2px solid #555; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; font-weight: bold; font-family: monospace; box-shadow: inset 0 0 10px rgba(255,255,255,0.2); user-select: none;">0</div>
-                    <button type="button" onclick="promijeniBroj(3, -1)" style="background: #d4af37; color: #111; border: none; border-radius: 4px; padding: 4px 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-top: 5px;">▼</button>
-                </div>
-            </div>
-
-            <button type="button" onclick="provjeriSifru()" style="width: 100%; padding: 10px; font-size: 1rem; font-weight: bold; background: #d4af37; color: #000; border: none; border-radius: 6px; cursor: pointer;">POTVRDI</button>
-        </div>
-
-        <button type="button" class="hint-btn" onclick="toggleHint('hint-9')">HINT 💡</button>
-        <div class="hint-text" id="hint-9">Galženjaci, tati i obešenjaci.</div>
-        
-        <!-- Poruke grešaka i naputaka -->
-        <div id="knjiga-poruka" style="text-align:center; font-size: 0.95rem; font-weight:bold; margin-top:15px; padding: 10px; border-radius: 6px; display: none;"></div>
     `;
 
-    // Inicijalizacija random početnih brojeva (pazi da slučajno ne pogodi odmah 222 ili 333)
+    // Inicijalizacija random početnih brojeva
     setTimeout(() => {
         if (typeof inicijalizirajBrojcanik === "function") {
             inicijalizirajBrojcanik();
@@ -2540,7 +2596,7 @@ else if (currentPuzzle.type === "potpis-puzzle") {
     contentDiv.innerHTML = `
         <!-- IKONICA MOBITELA -->
         <p style="text-align: center; font-size: 2rem; margin: 0 0 5px 0;">📱</p>
-		<h3 style="color: #d4af37; text-align:center;">Dvanaesti trag</h3>
+		
         <p style="text-align:center; font-weight:bold; margin-bottom: 10px;">Rekonstruiraj potpis</p>
         
         <div style="background: rgba(212, 175, 55, 0.1); border-left: 4px solid #d4af37; padding: 10px; margin: 15px auto; max-width: 400px; font-size: 0.9rem; text-align: left; border-radius: 0 8px 8px 0;">
@@ -2560,7 +2616,7 @@ else if (currentPuzzle.type === "potpis-puzzle") {
 // --- RENDER: TRAG 13 (KIŠOBRAN I LAV) ---
 else if (currentPuzzle.type === "kisobran-puzzle") {
     contentDiv.innerHTML = `
-        <h3 style="color: #d4af37; text-align:center;">Trinaesti trag</h3>
+       
         <p style="text-align:center; font-weight:bold; font-size: 1.1rem; margin-bottom: 20px;">
             "KIŠOBRAN U MOJOJ RUCI …
         </p>
@@ -2686,7 +2742,7 @@ else if (currentPuzzle.type === "kamenita-puzzle") {
 
         <!-- FAZA 2: ČEKIĆ I ZID -->
         <div id="faza2" style="display:none; text-align:center;">
-            <p style="margin-bottom:15px; font-weight:bold; color: #d4af37;">Zatvorena od svijeta, u tuzi i boli, Marija je počela pisati priče pune tajni i misterija… 🔨 Uzmi čekić i povuci ga preko cigli kako bi srušio zid samoće i vratio vjeru u ljubav!</p>
+            <p style="margin-bottom:15px; font-weight:bold; color: #d4af37;">Zatvorena od svijeta, u tuzi i boli, Marija je počela pisati priče pune tajni i misterija… 🔨 Uzmi čekić i povuci ga preko cigli kako bi srušio zid i pročitao njezine tajne!</p>
             
             <div class="prozor-okvir" id="okvir-zida-1">
                 <div id="cekic-alat-1" class="cekic-drag" style="touch-action:none;">🔨</div>
@@ -2725,7 +2781,7 @@ else if (currentPuzzle.type === "kamenita-puzzle") {
 
         <button type="button" class="zlatni-gumb" id="gumb-faza3-phs" onclick="provjeriPHS()" style="margin-top:10px; width:100%;">POTVRDI INICIJALE</button>
         <button type="button" class="hint-btn" onclick="toggleHint('hint-phs')" style="margin-top:10px;">HINT 💡</button>
-        <div class="hint-text" id="hint-phs">Prva Hrvatska Štriga.</div>
+        <div class="hint-text" id="hint-phs">Slova iznad vrata (probaj sa kvačicom).</div>
     </div>
 
     <p id="error-message-phs" style="color:red; font-weight: bold; text-align:center; margin-top: 10px;"></p>
@@ -2854,7 +2910,7 @@ else if (currentPuzzle.type === "kamenita-puzzle") {
     <div id="statut-izvadak-zona" style="display:none;">
         <div class="statut-box" style="text-align:justify; color: #000000; background: #fdf6e3; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #c5a059;">
             <h4 style="text-align:center; margin-top:0; color:#5c4037;">
-                Izvadak iz statuta slobodnog kraljevskog grada Zagreba, ljeta Gospodnjega 1425.
+                Izvadak iz statuta ljekarne
             </h4>
             
             <p style="color: #000000; font-size:0.9rem; line-height:1.5;">
@@ -2936,7 +2992,7 @@ else if (currentPuzzle.type === "kamenita-puzzle") {
          <strong>seguendo il sol de l’aquila ch’è quivi.”</strong>
     </p>
     
-    <p style="font-weight:bold; margin-bottom:5px;">Upiši ključnu riječ na latinskom, a koja se već pojavila (maloprije):</p>
+    <p style="font-weight:bold; margin-bottom:5px;">Upiši ključnu riječ:</p>
     <p style="text-align:center; font-size:0.85rem; color:#aaa; margin-top:0; margin-bottom:15px;">(SLOVA / 1)</p>
 
     <div class="sve-rijeci-wrapper">
@@ -2953,71 +3009,71 @@ else if (currentPuzzle.type === "kamenita-puzzle") {
         <hr class="zlatna-linija" id="linija-faza8" style="display:none;">
 
         <!-- FAZA 8: HRVATSKE STROFE I SLIKA 43 -->
-        <div id="faza8" style="display:none;">
-			
-			<!-- PRIJEVODI DANTEOVOG PJEVANJA -->
-<div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center;">
+<div id="faza8" style="display:none;">
+    
+    <!-- PRIJEVODI DANTEOVOG PJEVANJA -->
+    <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center;">
+        <!-- IZRAVNI PRIJEVOD -->
+        <p style="font-size: 1rem; color: #d4af37; font-weight: bold; margin-top: 0; margin-bottom: 10px;">Prijevod pjevanja na hrvatskom:</p>
+        <p style="font-style: italic; font-size: 0.95rem; color: #e0e0e0; line-height: 1.6; margin-bottom: 5px;">
+            Kao kad iz udarca po žeravici<br>
+            izlete bezbrojne iskre,<br>
+            iz kojih neuki znaju gatati,<br>
+            <strong>tako se ondje podiže više od tisuću svjetala</strong><br>
+            <strong>i uzdiže se, neka više, neka manje —</strong><br>
+            <span style="font-weight: bold; text-decoration: underline; color: #d4af37;">obasjavajući orla koji ondje stoji.</span>
+        </p>
+    </div>
+                
+    <p style="font-size: 1rem; color: #d4af37; font-weight: bold; margin-top: 15px; margin-bottom: 10px;">Od tisuću svjetala, koje svjetlo obasjava orla koji ondje stoji?
+    U pronalasku odgovora će ti pomoći priložena fotografija i druga svjetla u ulici.</p>
 
-    <!-- IZRAVNI PRIJEVOD -->
-    <p style="font-size: 1rem; color: #d4af37; font-weight: bold; margin-top: 0; margin-bottom: 10px;">Prijevod pjevanja na hrvatskom:</p>
-    <p style="font-style: italic; font-size: 0.95rem; color: #e0e0e0; line-height: 1.6; margin-bottom: 20px;">
-        Kao kad iz udarca po žeravici<br>
-        izlete bezbrojne iskre,<br>
-        iz kojih neuki znaju gatati,<br>
-        <strong>tako se ondje podiže više od tisuću svjetala</strong><br>
-        <strong>i uzdiže se, neka više, neka manje —</strong><br>
-        <span style="font-weight: bold; text-decoration: underline; color: #d4af37;">obasjavajući orla koji ondje stoji.</span>
-    </p>
+    <div style="text-align: center; margin-top: 25px;">
+        <span onclick="otvoriSliku43()" style="color: #d4af37; font-size: 1.15rem; font-weight: bold; cursor: pointer; text-decoration: underline; letter-spacing: 1px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); -webkit-tap-highlight-color: transparent;">
+            POGLEDAJ ME
+        </span>
+    </div>
 
-    <hr style="border: 0; border-top: 1px dashed rgba(212, 175, 55, 0.3); margin: 15px auto; width: 80%;">
+    <p style="text-align:center; font-weight:bold; margin-top: 15px;">Upiši šifru:</p>
+    <div class="sve-rijeci-wrapper">
+        <div class="rijec-kontejner">
+            <input type="tel" inputmode="numeric" class="box-in f8-br" maxlength="1"><input type="tel" inputmode="numeric" class="box-in f8-br" maxlength="1">
+        </div>
+    </div>
+    <button class="zlatni-gumb" id="gumb-faza8" onclick="provjeriBrojKraj()" style="margin-top:15px;">POTVRDI ŠIFRU</button>
+    <button class="hint-btn" onclick="toggleHint('hint-14.5')">HINT 💡</button>
+    <div class="hint-text" id="hint-14.5">Svjetlost.</div>
 
-    <!-- PRENESENO ZNAČENJE -->
-    <p style="font-size: 1rem; color: #d4af37; font-weight: bold; margin-top: 15px; margin-bottom: 10px;">Prijevod u prenesenom značenju:</p>
-    <p style="font-style: italic; font-size: 0.95rem; color: #e0e0e0; line-height: 1.6; margin-bottom: 5px;">
-        Kao kad nevolja zahvati preplašeni narod,<br>
-        izlete bezbrojne optužbe,<br>
-        iz kojih neuki kroje sudbine nedužnih žena,<br>
-        <strong>tako ni tama ne može ugušiti svako svjetlo</strong><br>
-        <strong>i počinju se paliti glasovi razuma, neki jače, neki manje —</strong><br>
-        <span style="font-weight: bold; text-decoration: underline; color: #d4af37;">pružajući nadu ženama koje stoje na rubu osude.</span>
-    </p>
+    <!-- PRENESENO ZNAČENJE (Pojavljuje se dolje tek nakon točne šifre 43) -->
+    <div id="preneseno-znacenje" style="display:none; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; padding: 15px; margin-top: 20px; text-align: center;">
+        <p style="font-size: 1rem; color: #d4af37; font-weight: bold; margin-top: 0; margin-bottom: 10px;">Prijevod u prenesenom značenju:</p>
+        <p style="font-style: italic; font-size: 0.95rem; color: #e0e0e0; line-height: 1.6; margin-bottom: 5px;">
+            Kao kad nevolja zahvati preplašeni narod,<br>
+            izlete bezbrojne optužbe,<br>
+            iz kojih neuki kroje sudbine nedužnih žena,<br>
+            <strong>tako ni tama ne može ugušiti svako svjetlo</strong><br>
+            <strong>i počinju se paliti glasovi razuma, neki jače, neki manje —</strong><br>
+            <span style="font-weight: bold; text-decoration: underline; color: #d4af37;">pružajući nadu ženama koje stoje na rubu osude.</span>
+        </p>
+    </div>
 
 </div>
-            
-<p style="font-size: 1rem; color: #d4af37; font-weight: bold; margin-top: 15px; margin-bottom: 10px;">Potraži svjetlo koje obasjava crnog orla. Ispod njega pronaći ćeš broj koji će ti pokazati put dalje.</p>
-            <div style="text-align: center; margin-top: 25px;">
-                <span onclick="otvoriSliku43()" style="color: #d4af37; font-size: 1.15rem; font-weight: bold; cursor: pointer; text-decoration: underline; letter-spacing: 1px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); -webkit-tap-highlight-color: transparent;">
-                    POGLEDAJ ME
-                </span>
-            </div>
 
-            <p style="text-align:center; font-weight:bold; margin-top: 15px;">Upiši šifru:</p>
-            <div class="sve-rijeci-wrapper">
-                <div class="rijec-kontejner">
-                    <input type="tel" inputmode="numeric" class="box-in f8-br" maxlength="1"><input type="tel" inputmode="numeric" class="box-in f8-br" maxlength="1">
-                </div>
-            </div>
-            <button class="zlatni-gumb" id="gumb-faza8" onclick="provjeriBrojKraj()" style="margin-top:15px;">POTVRDI ŠIFRU</button>
-            <button class="hint-btn" onclick="toggleHint('hint-14.5')">HINT 💡</button>
-            <div class="hint-text" id="hint-14.5">Svjetlost.</div>
-        </div>
+<!-- MODAL SLIKA 43 -->
+<div id="modal-slika-43" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
+    <p style="color: #d4af37; font-size: 1.3rem; font-weight: bold; margin-bottom: 15px; text-align: center; letter-spacing: 0.5px;">
+        Što nedostaje danas?
+    </p>
 
-        <!-- MODAL SLIKA 43 -->
-        <div id="modal-slika-43" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
-            <p style="color: #d4af37; font-size: 1.3rem; font-weight: bold; margin-bottom: 15px; text-align: center; letter-spacing: 0.5px;">
-                Što nedostaje danas?
-            </p>
+    <div style="position:relative; max-width:90%; max-height:80%;">
+        <img src="43.jpeg" style="width:100%; max-height:75vh; border:2px solid #d4af37; border-radius:8px; box-shadow:0 0 20px rgba(0,0,0,0.8);">
+    </div>
+    
+    <button class="zlatni-gumb" style="margin-top:20px; background:#cc2929; color:white; border:none; padding:10px 20px; border-radius:5px; font-weight:bold; cursor:pointer;" onclick="zatvoriSliku43()">ZATVORI</button>
+</div>
 
-            <div style="position:relative; max-width:90%; max-height:80%;">
-                <img src="43.jpeg" style="width:100%; max-height:75vh; border:2px solid #d4af37; border-radius:8px; box-shadow:0 0 20px rgba(0,0,0,0.8);">
-            </div>
-            
-            <button class="zlatni-gumb" style="margin-top:20px; background:#cc2929; color:white; border:none; padding:10px 20px; border-radius:5px; font-weight:bold; cursor:pointer;" onclick="zatvoriSliku43()">ZATVORI</button>
-        </div>
+<hr class="zlatna-linija" id="linija-faza9" style="display:none;">
 
-        <hr class="zlatna-linija" id="linija-faza9" style="display:none;">
-
-        <!-- FAZA 9: ZAVRŠNO MATEMATIČKO BROJENJE -->
         <!-- FAZA 9: ZAVRŠNO MATEMATIČKO BROJENJE -->
 <div id="faza9" style="display:none; text-align:center;">
     <p style="text-align:justify; line-height:1.6; font-size:1.05rem; margin-bottom:20px;">
@@ -3080,6 +3136,17 @@ else if (currentPuzzle.type === "kamenita-puzzle") {
 else if (currentPuzzle.type === "finalni-kvest") {
     contentDiv.innerHTML = `
         <h3 style="color: #d4af37; text-align:center; margin-bottom:15px;">Finalni trag</h3>
+		<p style="color: #d4af37; font-size: 1.05rem; line-height: 1.6; text-align: center; margin-bottom: 12px; font-style: italic; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);">
+    Pronašli ste svetu svjetlost i Crkvu svete Katarine. Katarina predstavlja simbol hrabrosti i zaštitnicu žena.
+</p>
+
+<p style="color: #d4af37; font-size: 1.05rem; line-height: 1.6; text-align: center; margin-bottom: 12px; font-style: italic; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);">
+    Na prvu možda neprimjetno, no ova crkva posjeduje vrlo misterioznu simboliku i skrivene tajne.
+</p>
+
+<p style="color: #d4af37; font-size: 1.05rem; line-height: 1.6; text-align: center; margin-bottom: 20px; font-style: italic; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); font-weight: bold;">
+    Kreni u otkrivanje Katarininog vela tajni.
+</p>
         
         <div id="fin-faza1" style="text-align:center;">
             <div style="margin: 15px auto; width:100%; max-width:280px; border:2px solid #333; padding:5px; background:#111; border-radius:8px;">
@@ -3196,6 +3263,10 @@ else if (currentPuzzle.type === "finalni-kvest") {
 
         <div id="fin-faza3" style="display:none; margin-top:20px;">
             <hr class="zlatna-linija">
+			
+			<p style="color: #d4af37; font-size: 1.05rem; line-height: 1.6; text-align: center; margin: 20px 0; font-style: italic; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); letter-spacing: 0.3px;">
+    Prilikom izgradnje ove crkve, arhitekti su namjerno napravili grešku koja se ne slaže sa sadržajem u 28. poglavlju Knjige Postanka. Čitaj samo podebljane stihove i u njima pronađi uljeza.
+</p>
 <div class="biblija-tekst-okvir" style="background:#fff; color:#222; padding:15px; border-radius:4px; text-align:justify; font-family:'Georgia', serif; font-size:0.95rem; max-height:350px; overflow-y:auto; border-left:4px solid #d4af37; line-height:1.5;">
     <h4 style="margin-top:0; color:#555; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 5px;">Knjiga Postanka 28</h4>
     
@@ -3206,7 +3277,7 @@ else if (currentPuzzle.type === "finalni-kvest") {
     </p>
 
     <p style="font-size: 1.05rem; font-weight: bold; color: #000; margin-bottom: 10px; border-left: 2px solid #d4af37; padding-left: 8px;">
-        I blagoslovljeno ime njegova veličanstva dovijeka, <u>Et benedictum nomen maiestatis eius in aeternum</u>
+        I blagoslovljeno ime njegova veličanstva dovijeka, <u>Et benedictum nomen...</u>
     </p>
 
     <p style="font-size: 0.72rem; color: #888; margin-bottom: 10px;">
@@ -3259,26 +3330,43 @@ else if (currentPuzzle.type === "finalni-kvest") {
             </div>
 
             <p style="text-align:center; font-weight:bold; margin-top:20px; color:#d4af37;">Koja riječ je uljez? Što se ne uklapa sa stvarnim stanjem?</p>
-           <div style="text-align: center; margin: 15px 0;">
-    <!-- Kućice za unos slova -->
-    <div id="ljestve-kucice-container" style="display: flex; justify-content: center; gap: 6px; margin-bottom: 10px;">
-        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 0)" onkeydown="obrisiSlovo(event, 0)">
-        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 1)" onkeydown="obrisiSlovo(event, 1)">
-        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 2)" onkeydown="obrisiSlovo(event, 2)">
-        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 3)" onkeydown="obrisiSlovo(event, 3)">
-        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 4)" onkeydown="obrisiSlovo(event, 4)">
-        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 5)" onkeydown="obrisiSlovo(event, 5)">
-        <input type="text" maxlength="1" class="slova-kucica" oninput="pomakniFokus(this, 6)" onkeydown="obrisiSlovo(event, 6)">
+<div style="background: rgba(0, 0, 0, 0.5); border: 1px solid #d4af37; border-radius: 8px; padding: 12px 15px; margin: 15px auto; max-width: 400px; text-align: center;">
+    <p style="margin: 0; font-size: 0.95rem; font-weight: bold; color: #ff5555; line-height: 1.4;">
+        ⚠️ <span>Napomena:</span> Svaki pogrešan odabir nosi kaznu od -3 minute!
+    </p>
+</div>
+
+<div style="text-align: center; margin: 20px 0; position: relative;">
+
+    <!-- STILIZIRANI POPUP ZA GREŠKU (SA SLIKE) -->
+    <div id="uljez-poruka" style="display: none; background: #ffe6e6; border: 2px solid #ff3333; border-radius: 12px; padding: 10px 18px; color: #cc0000; font-weight: bold; font-size: 1rem; margin: 0 auto 15px auto; max-width: 360px; box-shadow: 0 4px 15px rgba(255,0,0,0.3); text-align: center;">
+        ❌ Krivi pokušaj! Kazna: -3 do -5 minuta!
     </div>
 
-    <!-- Oznaka s brojem slova -->
-    <span style="color: #aaa; font-size: 0.85rem; font-weight: bold; ">(SLOVA / 1)</span>
+    <p style="color: #aaa; font-size: 0.85rem; font-weight: bold; margin-bottom: 15px;">
+        ODABERI ULJEZA:
+    </p>
+
+    <!-- Mreža s gumbima -->
+    <div id="uljez-mreza" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; max-width: 400px; margin: 0 auto;">
+        <button type="button" class="uljez-btn" onclick="odaberiUljeza(this, 'Matej')">Matej</button>
+        <button type="button" class="uljez-btn" onclick="odaberiUljeza(this, 'Božja kuća')">Božja kuća</button>
+        <button type="button" class="uljez-btn" onclick="odaberiUljeza(this, 'Vrata nebeska')">Vrata nebeska</button>
+        <button type="button" class="uljez-btn" onclick="odaberiUljeza(this, 'Stupovi')">Stupovi</button>
+        <button type="button" class="uljez-btn" onclick="odaberiUljeza(this, 'Četiri evanđelista')">Četiri evanđelista</button>
+        <button type="button" class="uljez-btn" onclick="odaberiUljeza(this, 'Četiri bića')">Četiri bića</button>
+        <button type="button" class="uljez-btn" onclick="odaberiUljeza(this, 'Katarina')">Katarina</button>
+        <button type="button" class="uljez-btn" onclick="odaberiUljeza(this, 'Anđeli')">Anđeli</button>
+    </div>
 </div>
-            <button class="zlatni-gumb" onclick="provjeriUljeza()">POTVRDI RIJEČ</button>
+
+            
         </div>
 
         <div id="fin-faza4" style="display:none; margin-top:20px; text-align:center;">
             <hr class="zlatna-linija">
+			<p style="color: #d4af37; font-size: 1.05rem; line-height: 1.6; text-align: center; margin-bottom: 12px; font-style: italic; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);">
+    Neka te anđeli vode do Katarininog prijatelja i otkriju najveću tajnu tajnoga društva. </p>
             <p style="font-weight:bold; color:#d4af37; margin-bottom:15px;">Tko je Katarinin prijatelj?</p>
 							<p style="text-align: center; font-size: 0.9rem; color: #ff6b6b; background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; padding: 8px 12px; border-radius: 6px; margin: 15px auto; max-width: 90%; font-weight: 600;">
   ⚠️ <strong>Napomena:</strong> Svaki pogrešan odabir nosi kaznu od <strong>-3 minute</strong>!
@@ -4656,7 +4744,44 @@ window.provjeriPotepuh = function() {
     }
 };
 
-// Logika za 9. trag (PDF i šifra)
+// Logika za 9. trag (PDF, provjera riječi i šifra)
+
+// Funkcija za provjeru broja riječi (odgovor: 15)
+window.provjeriBrojRijeci = function() {
+    const inputEl = document.getElementById('input-broj-rijeci');
+    const greskaEl = document.getElementById('greska-rijeci');
+    const prijevodEl = document.getElementById('prijevod-strofe');
+    const wrapperEl = document.getElementById('faza-brojcanik-wrapper');
+
+    if (!inputEl) return;
+
+    const unosi = inputEl.value.trim();
+
+    if (unosi === "15") {
+        if (greskaEl) greskaEl.style.display = 'none';
+
+        // Prikazujemo prijevod i blok s brojčanikom
+        if (prijevodEl) prijevodEl.style.display = 'block';
+        if (wrapperEl) wrapperEl.style.display = 'block';
+
+        // Sakrijemo input polje i gumb da ne smetaju u nastavku
+        const kontejner = document.getElementById('faza-rijeci-kontejner');
+        if (kontejner) kontejner.style.display = 'none';
+
+        // Glatki scroll na prijevod strofe
+        prijevodEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        if (greskaEl) {
+            greskaEl.style.display = 'block';
+            greskaEl.innerText = "Broj riječi nije točan. Prebroj ponovno prvu strofu!";
+        }
+        // Kažnjavanje krivog unosa ako koristiš sustav -5 min
+        if (typeof primijeniKaznu === "function") {
+            primijeniKaznu();
+        }
+    }
+};
+
 // Stanje brojčanika (inicijalno 0, 0, 0)
 let dialValues = [0, 0, 0];
 
@@ -4717,7 +4842,7 @@ window.provjeriSifru = function() {
         porukaEl.style.background = 'rgba(46, 204, 113, 0.2)';
         porukaEl.style.border = '1px solid #2ecc71';
         porukaEl.style.color = '#2ecc71';
-        porukaEl.innerHTML = `Bravo, pravilno uočeno! <br><br> <button type="button" onclick="nextPuzzle()" style="padding: 10px 20px; font-weight: bold; cursor: pointer;">IDUĆI TRAG</button>`;
+        porukaEl.innerHTML = `Bravo, pravilno uočeno! <br><br> <button type="button" onclick="nextPuzzle()" style="padding: 10px 20px; font-weight: bold; cursor: pointer; background: #d4af37; border: none; border-radius: 5px;">IDUĆI TRAG</button>`;
     } else if (uneseniKod === "333") {
         porukaEl.style.background = 'rgba(241, 196, 15, 0.2)';
         porukaEl.style.border = '1px solid #f1c40f';
@@ -5575,16 +5700,30 @@ function zatvoriSliku43() { document.getElementById('modal-slika-43').style.disp
 
 function provjeriBrojKraj() {
     let unijeto = sakupljaSlovaKucica("f8-br");
-    // ako je faza 8 točna:
-    if (unijeto === "43") { // ili tvoja šifra za f8
-        ispisiGreskuPoruku14("");
-        document.getElementById('linija-faza9').style.display = 'block';
-        document.getElementById('faza9').style.display = 'block';
+
+    if (unijeto === "43") {
+        ispisiGreskuPoruku14(""); // briše eventualnu poruku greške
         
-        // KLJUČNO: Omogući auto-tabbing za f9-broj
-        omoguciKuciceAutoTab("f9-broj");
+        // 1. Prikazujemo preneseno značenje koje se sada nalazi na dnu Faze 8
+        const znacenje = document.getElementById('preneseno-znacenje');
+        if (znacenje) {
+            znacenje.style.display = 'block';
+        }
+
+        // 2. Otvaramo liniju i Fazu 9
+        const linija9 = document.getElementById('linija-faza9');
+        const faza9 = document.getElementById('faza9');
         
-        document.getElementById('faza9').scrollIntoView({ behavior: 'smooth' });
+        if (linija9) linija9.style.display = 'block';
+        if (faza9) {
+            faza9.style.display = 'block';
+            omoguciKuciceAutoTab("f9-broj");
+        }
+
+        // 3. Skrolamo prirodno do novoootkrivenog teksta prenesenog značenja
+        if (znacenje) {
+            znacenje.scrollIntoView({ behavior: 'smooth' });
+        }
     } else {
         ispisiGreskuPoruku14("Šifra nije točna.");
     }
@@ -5760,19 +5899,48 @@ function obrisiSlovo(e, index) {
 }
 
 // Ažurirana glavna provjera
-function provjeriUljeza() {
-    const kucice = document.querySelectorAll('.slova-kucica');
-    let unos = "";
+function odaberiUljeza(gumb, odabir) {
+    const errEl = document.getElementById('uljez-poruka');
 
-    // Spajamo sva unesena slova u jednu riječ
-    kucice.forEach(k => unos += k.value.trim().toUpperCase());
+    if (odabir === "Anđeli") {
+        // Sakrij popup greške ako je bio prikazan
+        if (errEl) errEl.style.display = 'none';
 
-    if (unos === "LJESTVE") {
-        ispisiGresku15("");
-        document.getElementById('fin-faza4').style.display = 'block';
-        document.getElementById('fin-faza4').scrollIntoView({ behavior: 'smooth' });
+        // Označi točan gumb zelenom bojom
+        gumb.style.background = '#2ecc71';
+        gumb.style.color = '#000';
+        gumb.style.borderColor = '#2ecc71';
+
+        // Nastavak flowa
+        const finFaza4 = document.getElementById('fin-faza4');
+        if (finFaza4) {
+            finFaza4.style.display = 'block';
+            finFaza4.scrollIntoView({ behavior: 'smooth' });
+        }
     } else {
-        ispisiGresku15("Riječ nije točna.");
+        // Prikaz stiliziranog popupa greške iznad mrežice
+        if (errEl) {
+            errEl.style.display = 'block';
+            errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Efekt bljeska na stisnutom gumbu
+        const originalniBg = gumb.style.background;
+        gumb.style.background = 'rgba(231, 76, 60, 0.5)';
+        gumb.style.borderColor = '#e74c3c';
+        
+        setTimeout(() => {
+            gumb.style.background = originalniBg;
+            gumb.style.borderColor = 'rgba(212, 175, 55, 0.4)';
+        }, 800);
+
+        // Oduzimanje vremena (-3 minute)
+        if (typeof startTime !== 'undefined') {
+            startTime -= 3 * 60 * 1000;
+            localStorage.setItem('ordo_start_time', startTime);
+        } else if (typeof primijeniKaznu === "function") {
+            primijeniKaznu(3);
+        }
     }
 }
 
@@ -6305,7 +6473,7 @@ function dodajKaznenoVrijeme(minute = 5) {
                     
                     <li><div class="glavni-trag">7. BDS</div></li>
                     <li><div class="glavni-trag">8. POTEPUH</div></li>
-                    <li><div class="glavni-trag">9. 333 -> 222</div></li>
+                    <li><div class="glavni-trag">9. 15 riječi -> 333 -> 222</div></li>
                     <li><div class="glavni-trag">10. 1X-6Y</div><div class="pod-trag">(ishodište: donji lijevi kut)</div></li>
                     <li><div class="glavni-trag">11. PK – MJZ</div></li>
                     <li><div class="glavni-trag">12. Zagorka</div></li>
@@ -6325,7 +6493,7 @@ function dodajKaznenoVrijeme(minute = 5) {
                         <div class="glavni-trag">15. DOMUS (ili DOMVS) DEI ET PORTA COELI – GEN Z8</div>
                         <div class="pod-trag">15.1. KNJIGA POSTANKA</div>
                         <div class="pod-trag">15.2. POGLAVLJE 28</div>
-                        <div class="pod-trag">15.3. LJESTVE</div>
+                        <div class="pod-trag">15.3. ANĐELI</div>
                         <div class="pod-trag">15.4. EVANĐELJE PO IVANU</div>
                         <div class="pod-trag">15.5. RIJEČ -> 15.6. BOG -> 15.7. ŽIVOT -> 15.8. SVJETLO</div>
                         <div class="pod-trag">15.9. Lokoti na ogradi: <br>
