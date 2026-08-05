@@ -2453,23 +2453,24 @@ else if (currentPuzzle.type === "knjiga-puzzle") {
     contentDiv.innerHTML = `
         <p>Isti pojam pronaći ćeš na samome početku knjige. Pronađi ga i upiši ukupan broj riječi u prvoj strofi kako bi dobio potpuni prijevod iste.</p>
         
-<!-- Klikabilna ikona (Klik na nju otvara/zatvara prozor) -->
+<!-- Ikona knjige na koju se klikne -->
 <div style="text-align: center; margin: 15px 0;">
     <div style="font-size: 4rem; cursor: pointer; display: inline-block; user-select: none;" onclick="otvoriPDF()">📗</div>
     <p style="color: #aaa; font-size: 0.85rem; font-style: italic; margin-top: 5px;">(Klikni knjigu za prikaz)</p>
 </div>
 
-<!-- Prozor s Google Drive prikazom -->
-<div id="pdf-modal" style="display: none; margin: 20px auto; max-width: 600px; padding: 10px; background: rgba(0,0,0,0.85); border: 1px solid #d4af37; border-radius: 8px;">
+<!-- Fullscreen Modal -->
+<div id="pdf-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background: rgba(0, 0, 0, 0.95); box-sizing: border-box; padding: 15px;">
     
-    <div style="text-align: right; margin-bottom: 8px;">
-        <button type="button" onclick="otvoriPDF()" style="background: #e74c3c; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; font-weight: bold; cursor: pointer;">
-            ✕ Zatvori knjigu
+    <!-- Zaglavlje s ZATVORI gumbom -->
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px; height: 40px;">
+        <button type="button" onclick="otvoriPDF()" style="background: #e74c3c; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+            ✕ ZATVORI KNJIGU
         </button>
     </div>
 
-    <div style="width: 100%; height: 60vh; border-radius: 4px; overflow: hidden; background: #fff;">
-        <!-- OVDJE UBAČAJ SVOJ PUNI GOOGLE DRIVE EMBED LINK -->
+    <!-- Prikaz knjige preko ostatka ekrana -->
+    <div style="width: 100%; height: calc(100vh - 80px); border-radius: 6px; overflow: hidden; background: #fff;">
         <iframe src="https://drive.google.com/file/d/12xYe5g6rXPSAUa2-DhgMVv6HwA69dNGw/preview" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
 </div>
@@ -4849,7 +4850,13 @@ function otvoriPDF() {
     const modal = document.getElementById('pdf-modal');
     if (!modal) return;
     
-    modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+    if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Vraća skrolanje stranice
+    } else {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Zaustavlja skrolanje pozadine dok je knjiga otvorena
+    }
 }
 
 function zatvoriPDF() { 
